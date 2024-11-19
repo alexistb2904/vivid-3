@@ -1,5 +1,6 @@
 @use 'sass:map';
-@use '../tabs/partials/variables' as variables;
+@use 'partials/variables' as variables;
+@use '../tab/partials/variables' as tab-variables;
 @use 'partials/mixins' as mixins;
 @use '../../../../../dist/libs/tokens/scss/tokens.constants' as constants;
 @use '../../../../shared/src/lib/sass/mixins/connotation/config' with (
@@ -45,37 +46,43 @@
 		grid-template-columns: 1fr;
 		grid-template-rows: auto 1fr;
 		max-block-size: 100%;
+	}
+}
 
-		.scroll-shadow {
-			position: relative;
-			overflow: hidden;
-			isolation: isolate;
+.scroll-shadow {
+	.base.layout-stretch & {
+		flex: 1;
+	}
 
-			&.start-scroll,
-			&.end-scroll {
-				&::before,
-				&::after {
-					position: absolute;
-					content: '';
-					inline-size: 10px;
-					inset-block: 0;
-					opacity: 0;
-					transition: opacity 0.1s;
-				}
+	.base:not(.orientation-vertical) & {
+		position: relative;
+		overflow: hidden;
+		isolation: isolate;
+
+		&.start-scroll,
+		&.end-scroll {
+			&::before,
+			&::after {
+				position: absolute;
+				content: '';
+				inline-size: 10px;
+				inset-block: 0;
+				opacity: 0;
+				transition: opacity 0.1s;
 			}
+		}
 
-			&.start-scroll::before {
-				z-index: 1;
-				box-shadow: inset 7px 1px 5px -3px var(--vvd-color-neutral-950);
-				inset-inline-start: 0;
-				opacity: 0.2;
-			}
+		&.start-scroll::before {
+			z-index: 1;
+			box-shadow: inset 7px 1px 5px -3px var(--vvd-color-neutral-950);
+			inset-inline-start: 0;
+			opacity: 0.2;
+		}
 
-			&.end-scroll::after {
-				box-shadow: inset -7px 1px 5px -3px var(--vvd-color-neutral-950);
-				inset-inline-end: 0;
-				opacity: 0.2;
-			}
+		&.end-scroll::after {
+			box-shadow: inset -7px 1px 5px -3px var(--vvd-color-neutral-950);
+			inset-inline-end: 0;
+			opacity: 0.2;
 		}
 	}
 }
@@ -101,10 +108,13 @@
 	box-sizing: border-box;
 	color: var(#{appearance.get-appearance-token(text)});
 
+	.base.layout-stretch & {
+		#{tab-variables.$justify-content}: center;
+	}
+
 	.base.orientation-vertical & {
 		padding: var(#{variables.$tabs-tablist-gutter});
 		grid-row: 1 / 2;
-		grid-template-columns: auto 1fr;
 		grid-template-rows: auto;
 		inline-size: 100%;
 		place-self: flex-start end;

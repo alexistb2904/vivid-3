@@ -211,6 +211,16 @@ export class Tabs extends FoundationElement {
 
 		this.activeTabIndex = this.getActiveIndex();
 		this.showActiveIndicator = false;
+
+		if (this.isHorizontal()) {
+			this.tablist!.style.setProperty(
+				'grid-template-columns',
+				`repeat(${this.tabs.length}, 1fr)`
+			);
+		} else {
+			this.tablist!.style.removeProperty('grid-template-columns');
+		}
+
 		this.tabs.forEach((tab: HTMLElement, index: number) => {
 			if (tab.slot === 'tab') {
 				const isActiveTab =
@@ -408,6 +418,15 @@ export class Tabs extends FoundationElement {
 	 */
 	@attr({ mode: 'boolean', attribute: 'scrollable-panel' }) scrollablePanel =
 		false;
+
+	/**
+	 * Controls the layout of the tabs.
+	 * @public
+	 * @remarks
+	 * HTML Attribute: tabs-layout
+	 */
+	@attr({ attribute: 'tabs-layout' }) tabsLayout?: 'align-start' | 'stretch';
+
 	/**
 	 * @internal
 	 */
